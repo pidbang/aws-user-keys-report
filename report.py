@@ -27,10 +27,10 @@ def main():
             for keys_page in keys_page_iterator:
                 for key in keys_page["AccessKeyMetadata"]:
                     user_keys.append(key)
-            active_keys = sum((1 for k in user_keys if k["Status"] == "Active"))
+            active_keys = sum((1 for k in user_keys if k["Status"] == "Active" and k["CreateDate"] + MAX_ACTIVE_TIME >= datetime.now(tz=UTC)))
             obsolete_keys = sum((1 for k in user_keys if k["Status"] == "Active" and k["CreateDate"] + MAX_ACTIVE_TIME < datetime.now(tz=UTC)))
-            inactive_keys = len(user_keys) - active_keys
-            print(f"{user['UserName']} active: {active_keys}, inactive: {inactive_keys}, obsolete: {obsolete_keys}")
+            inactive_keys = len(user_keys) - active_keys - obsolete_keys
+            print(f"{user['UserName']} active: {active_keys}, obsolete: {obsolete_keys}, inactive: {inactive_keys}")
     print("done")
 
 
