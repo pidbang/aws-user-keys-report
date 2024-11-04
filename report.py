@@ -10,9 +10,9 @@ def main():
     client = boto3.client('iam')
     paginator = client.get_paginator('list_users')
     pagination_config = {
-            'MaxItems': 1000,
-            'PageSize': 10,
-        }
+        'MaxItems': 1000,
+        'PageSize': 10,
+    }
     users_page_iterator = paginator.paginate(
         PaginationConfig=pagination_config
     )
